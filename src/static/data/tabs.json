@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Булки",
+    "value": "bun"
+  },
+  {
+    "label": "Начинки",
+    "value": "main"
+  },
+  {
+    "label": "Соусы",
+    "value": "sauce"
+  }
+]

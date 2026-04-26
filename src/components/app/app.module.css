@@ -1,7 +1,7 @@
 .app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   color: var(--text-primary-color);
   background-color: var(--background-alt);
 }
@@ -16,6 +16,7 @@
 .main {
   display: flex;
   justify-content: space-between;
+  gap: 40px;
   width: 1240px;
   height: 100%;
   margin: 0 auto;
