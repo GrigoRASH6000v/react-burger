@@ -1,5 +1,5 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ModalOverlay } from '@components/modal/modal-overlay/modal-overlay';
@@ -9,44 +9,35 @@ import type { ModalProps } from './types';
 import styles from './modal.module.css';
 
 export const Modal = ({
-  isOpen,
   onClose,
   children,
   title,
 }: ModalProps): React.JSX.Element | null => {
-  const modalContainerRef = useRef<HTMLDivElement | null>(null);
+  const container = useMemo(() => {
+    let containerEl = document.getElementById('modal');
 
-  const handleKeyDown = (e: KeyboardEvent): void => {
-    e.key === 'Escape' && onClose();
-  };
+    if (!containerEl) {
+      containerEl = document.createElement('div');
+      containerEl.id = 'modal';
+      document.body.appendChild(containerEl);
+    }
+    return containerEl;
+  }, []);
 
   useEffect(() => {
-    const createModalContainer = (): HTMLDivElement => {
-      const container = document.createElement('div');
-      container.id = 'modal';
-      document.body.appendChild(container);
-      return container;
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
     };
-
-    let modalContainer = document.getElementById('modal') as HTMLDivElement | null;
-    modalContainer ??= createModalContainer();
-
-    modalContainerRef.current = modalContainer;
+    document.addEventListener('keydown', handleKeyDown);
 
     return (): void => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
-
-    return (): void => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
-
-  if (!isOpen || !modalContainerRef.current) {
+  if (!container) {
     return null;
   }
 
@@ -67,6 +58,6 @@ export const Modal = ({
         <div className="modal-body">{children}</div>
       </div>
     </div>,
-    modalContainerRef.current
+    container
   );
 };

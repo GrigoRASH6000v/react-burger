@@ -17,7 +17,7 @@ export const OrderDetails = ({
           <img
             className={`${styles.image} mb-15 pt-1`}
             src={`${doneImg}`}
-            alt="Иконка статуса"
+            alt="Иконка успешного статуса"
           />
           <span className="pt-3 mb-2 text text_type_main-default">
             Ваш заказ начали готовить

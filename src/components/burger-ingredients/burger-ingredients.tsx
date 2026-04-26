@@ -1,3 +1,4 @@
+import { useModal } from '@/hook/useModal.ts';
 import tabsData from '@/static/data/tabs.json';
 import { Tab, CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useMemo, useState } from 'react';
@@ -16,13 +17,16 @@ export const BurgerIngredients = ({
   activeTab,
   onChange,
 }: BurgerIngredientsProps): React.JSX.Element => {
-  const [openedIngredient, setOpenedIngredient] = useState<ShortIngredient | null>(null);
+  const { modalIsOpen, closeModal, openModal } = useModal();
+  const [selectedIngredient, setSelectedIngredient] = useState<ShortIngredient | null>(
+    null
+  );
   const activeTabTitle = tabsData.find((tab) => tab.value === activeTab)?.label ?? '';
   const filteredIngredients = useMemo(() => {
     return ingredients.filter((ingredient: Ingredient) => ingredient.type === activeTab);
   }, [ingredients, activeTab]);
   const handleSelectIngredient = (ingredient: Ingredient): void => {
-    setOpenedIngredient({
+    setSelectedIngredient({
       img: ingredient.image,
       name: ingredient.name,
       params: {
@@ -32,6 +36,7 @@ export const BurgerIngredients = ({
         carbohydrates: ingredient.carbohydrates,
       },
     });
+    openModal();
   };
 
   return (
@@ -61,7 +66,10 @@ export const BurgerIngredients = ({
             >
               <Counter extraClass={styles.ingredient_counter} count={1} />
               <div className={`${styles.ingredient_img} mb-3`}>
-                <img src={ingredient.image} alt="Изображение ингридиента" />
+                <img
+                  src={ingredient.image}
+                  alt={`Изображение ингридиента: ${ingredient.name}`}
+                />
               </div>
               <div className={`${styles.ingredient_price} mb-3`}>
                 <span className="text text_type_digits-default">{ingredient.price}</span>
@@ -72,13 +80,11 @@ export const BurgerIngredients = ({
           ))}
         </ul>
       </div>
-      <Modal
-        isOpen={Boolean(openedIngredient)}
-        title="Детали ингридиента"
-        onClose={() => setOpenedIngredient(null)}
-      >
-        {openedIngredient && <IngredientDetails {...openedIngredient} />}
-      </Modal>
+      {modalIsOpen && selectedIngredient && (
+        <Modal title="Детали ингридиента" onClose={closeModal}>
+          <IngredientDetails {...selectedIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };

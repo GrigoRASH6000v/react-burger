@@ -9,7 +9,7 @@ export const IngredientDetails = ({
 }: ShortIngredient): React.JSX.Element => {
   return (
     <div className={styles.container}>
-      <img src={img} className={styles.image} alt="Изображение ингридиента" />
+      <img src={img} className={styles.image} alt={`Изображение ингридиента: ${name}`} />
       <span className="mb-8 text text_type_main-medium">{name}</span>
       <div className={styles.table}>
         <div className={styles.col}>

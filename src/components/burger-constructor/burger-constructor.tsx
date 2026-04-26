@@ -1,10 +1,11 @@
+import { useModal } from '@/hook/useModal.ts';
 import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Modal } from '@components/modal/modal.tsx';
 import { OrderDetails } from '@components/modals/order-details/order-details.tsx';
@@ -17,7 +18,8 @@ import styles from './burger-constructor.module.css';
 export const BurgerConstructor = ({
   ingredients,
 }: BurgerConstructorProps): React.JSX.Element => {
-  const [modalIsOpen, setModaIsOpen] = useState(false);
+  const { modalIsOpen, closeModal, openModal } = useModal();
+
   const price = useMemo(() => {
     return ingredients.reduce((acc, el) => {
       acc += el.price;
@@ -75,13 +77,15 @@ export const BurgerConstructor = ({
           <CurrencyIcon className={styles.footer_icon} type="primary" />
         </div>
 
-        <Button onClick={() => setModaIsOpen(true)} size="large" type="primary">
+        <Button onClick={openModal} size="large" type="primary">
           <span className="text text_type_main-default">Оформить заказ</span>
         </Button>
       </div>
-      <Modal isOpen={modalIsOpen} onClose={() => setModaIsOpen(false)}>
-        <OrderDetails identification="034536" status="success" />
-      </Modal>
+      {modalIsOpen && (
+        <Modal onClose={closeModal}>
+          <OrderDetails identification="034536" status="success" />
+        </Modal>
+      )}
     </section>
   );
 };
