@@ -20,8 +20,20 @@ type Params = {
   carbohydrates: number;
 };
 
-export type ShortIngredient = {
+export type IngredientForModal = {
   img: string;
   name: string;
   params: Params;
+};
+
+export type ShortIngredient = {
+  id: string;
+  image: string;
+  name: string;
+  price: number;
+  type: string;
+};
+
+export type IngredientForConstructor = ShortIngredient & {
+  cId: string;
 };
