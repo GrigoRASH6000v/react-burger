@@ -4,7 +4,7 @@ import {
   getCountIngredientsByTypeAndId,
   selectIngredients as selectConstructorIngredients,
   selectBun,
-} from '@/store/modules/burger-constructor/burger-ccnstrucor-slice';
+} from '@/store/modules/burger-constructor/burger-constructor-slice.ts';
 import { selectIngredients } from '@/store/modules/ingredients/ingredient-slice';
 import {
   setSelectedIngredient,
