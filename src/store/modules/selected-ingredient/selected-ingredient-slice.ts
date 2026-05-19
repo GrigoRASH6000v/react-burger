@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { RootState } from '@/store';
 import type { IngredientForModal } from '@/types/Ingredient';
 
 type InitialState = {
@@ -19,10 +18,12 @@ export const selectedIngredientSlice = createSlice({
       state.selectedIngredient = action.payload;
     },
   },
+  selectors: {
+    selectSelectedIngredient: (state: InitialState): IngredientForModal | null =>
+      state.selectedIngredient,
+  },
 });
 
 export const { setSelectedIngredient } = selectedIngredientSlice.actions;
 export default selectedIngredientSlice.reducer;
-
-export const selectSelectedIngredient = (state: RootState): IngredientForModal | null =>
-  state.selectedIngredient.selectedIngredient;
+export const { selectSelectedIngredient } = selectedIngredientSlice.selectors;

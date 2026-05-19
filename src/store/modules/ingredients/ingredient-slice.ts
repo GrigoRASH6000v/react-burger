@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { RootState } from '@/store';
 import type { Ingredient } from '@/types/Ingredient';
 
 type IngredientState = {
@@ -19,17 +18,16 @@ export const ingredientSlice = createSlice({
       state.list = action.payload;
     },
   },
+  selectors: {
+    selectIngredients: (state: IngredientState) => state.list,
+    selectIngredientsById:
+      (state: IngredientState) =>
+      (id: string): Ingredient | null =>
+        state.list.find((ingredient: Ingredient) => ingredient._id === id) ?? null,
+  },
 });
 
 export const { setIngredients } = ingredientSlice.actions;
-
-export const selectIngredients = (state: RootState): Ingredient[] =>
-  state.ingredients.list;
-
-export const selectIngredentsById =
-  (id: string) =>
-  (state: RootState): Ingredient | null =>
-    state.ingredients.list.find((ingredient: Ingredient) => ingredient._id === id) ??
-    null;
+export const { selectIngredients, selectIngredientsById } = ingredientSlice.selectors;
 
 export default ingredientSlice.reducer;

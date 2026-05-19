@@ -2,7 +2,7 @@ import { ordersApi } from '@/store/api/ordersApi';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
 import { ingredientsApi } from './api/ingredientsApi';
-import burgerConstructorReducer from './modules/burger-constructor/burger-ccnstrucor-slice';
+import burgerConstructorReducer from './modules/burger-constructor/burger-constructor-slice';
 import ingredientsReducer from './modules/ingredients/ingredient-slice';
 import selectedIngredientReducer from './modules/selected-ingredient/selected-ingredient-slice';
 

@@ -6,10 +6,11 @@ import {
   setBun,
   removeIngredient,
   sortIngredient,
+  clearConstructor,
   selectIngredients,
   selectBun,
   getPrice,
-} from '@/store/modules/burger-constructor/burger-ccnstrucor-slice';
+} from '@/store/modules/burger-constructor/burger-constructor-slice';
 import {
   ConstructorElement,
   DragIcon,
@@ -17,7 +18,8 @@ import {
   CurrencyIcon,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
+import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ConstructorElementPlaceholder } from '@components/constructor-element-placeholder/constructor-element-placeholder';
@@ -40,7 +42,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   useEffect(() => {
     isSuccess && openModal();
+    dispatch(clearConstructor());
   }, [isSuccess]);
+
+  const orderButtonIsDisabled: boolean = useMemo(() => {
+    return !(bun && ingredients.length);
+  }, [bun, ingredients.length]);
 
   const price = useSelector(getPrice);
 
@@ -69,7 +76,9 @@ export const BurgerConstructor = (): React.JSX.Element => {
   };
 
   const handleOnDrop = (item: ShortIngredient): void => {
-    item.type === 'bun' ? dispatch(setBun(item)) : dispatch(addIngredient(item));
+    item.type === 'bun'
+      ? dispatch(setBun({ cId: nanoid(), ...item }))
+      : dispatch(addIngredient({ cId: nanoid(), ...item }));
   };
 
   const handleSortIngredient = (fromIndex: number, toIndex: number): void => {
@@ -178,7 +187,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
           <span className="text text_type_digits-medium">{price}</span>
           <CurrencyIcon className={styles.footer_icon} type="primary" />
         </div>
-        <Button onClick={handleCreateOrder} size="large" type="primary">
+        <Button
+          disabled={orderButtonIsDisabled}
+          onClick={handleCreateOrder}
+          size="large"
+          type="primary"
+        >
           <span className="text text_type_main-default">Оформить заказ</span>
         </Button>
       </div>
