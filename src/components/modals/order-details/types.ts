@@ -1,4 +1,4 @@
 export type OrderDetailsProps = {
-  identification: string;
+  identification: string | number;
   status: string;
 };

@@ -1,4 +1,4 @@
-import type { ShortIngredient } from '@/types/Ingredient';
+import type { IngredientForModal } from '@/types/Ingredient';
 
 import styles from './ingredient-details.module.css';
 
@@ -6,7 +6,7 @@ export const IngredientDetails = ({
   img,
   name,
   params,
-}: ShortIngredient): React.JSX.Element => {
+}: IngredientForModal): React.JSX.Element => {
   return (
     <div className={styles.container}>
       <img src={img} className={styles.image} alt={`Изображение ингридиента: ${name}`} />

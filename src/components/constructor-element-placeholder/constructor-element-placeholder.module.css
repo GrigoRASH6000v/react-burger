@@ -1,0 +1,31 @@
+.placeholder {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 536px;
+  min-height: 80px;
+  padding: 16px 24px;
+  color: #f2f2f3;
+  background: #2f2f37;
+  border: 1px dashed transparent;
+  transition: border-color 0.3s ease;
+}
+
+.placeholder.base {
+  border-radius: 40px;
+}
+
+.placeholder.top {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.placeholder.bottom {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.placeholder.highlight {
+  border-color: #4c4cff;
+}

@@ -1,45 +1,30 @@
-import api from '@/api';
+import { useGetIngridiensQuery } from '@/store/api/ingredientsApi.ts';
+import { setIngredients } from '@/store/modules/ingredients/ingredient-slice';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { ErrorMessage } from '@components/error-message/error-message';
 
-import type { IngredientsResponse } from '@/api/modules/ingridients/types';
-import type { Ingredient } from '@/types/Ingredient';
+import type { Ingredient } from '@/types/Ingredient.ts';
 
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const [isLoad, setIsLoad] = useState(false);
-  const [fetchIsFailed, setFetchIsFailed] = useState(false);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const { isLoading, data, isError } = useGetIngridiensQuery();
 
-  const [activeTab, setActiveTab] = useState('bun');
+  const dispatch = useDispatch();
 
-  const fetchIngredients = async (): Promise<void> => {
-    try {
-      setIsLoad(true); // Начинаем загрузку
-      const response: IngredientsResponse = await api.ingredients.getAll();
-      const {
-        data: { data: list, success },
-      } = response;
-      if (success) {
-        setIngredients(list);
-      }
-    } catch (e) {
-      setFetchIsFailed(true);
-      console.error(e);
-    } finally {
-      setIsLoad(false);
-    }
-  };
+  const ingredients: Ingredient[] = data?.data ?? [];
 
   useEffect(() => {
-    void fetchIngredients();
-  }, []);
+    if (ingredients.length > 0) {
+      dispatch(setIngredients(ingredients));
+    }
+  }, [dispatch, ingredients]);
 
   return (
     <div className={styles.app}>
@@ -48,18 +33,14 @@ export const App = (): React.JSX.Element => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        {isLoad ? (
+        {isLoading ? (
           <Preloader />
-        ) : fetchIsFailed ? (
+        ) : isError ? (
           <ErrorMessage />
         ) : (
           <>
-            <BurgerIngredients
-              ingredients={ingredients}
-              activeTab={activeTab}
-              onChange={setActiveTab}
-            />
-            <BurgerConstructor ingredients={ingredients} />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </>
         )}
       </main>

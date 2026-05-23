@@ -19,12 +19,14 @@
 .list_item {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .footer {
   display: flex;
   align-items: center;
   gap: 40px;
+  margin-top: auto;
   margin-left: auto;
   padding: 44px 17px 53px;
 }
@@ -38,4 +40,8 @@
 .price {
   display: flex;
   align-items: center;
+}
+
+.drop_zone_overflow {
+  overflow: auto;
 }
