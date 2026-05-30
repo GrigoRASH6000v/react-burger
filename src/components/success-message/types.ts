@@ -1,4 +1,5 @@
 export type SuccessMessageProps = {
   onClose: () => void;
-  text: string;
+  text?: string;
+  textButton?: string;
 };
