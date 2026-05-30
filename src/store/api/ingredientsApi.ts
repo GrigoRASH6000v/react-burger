@@ -8,11 +8,11 @@ export const ingredientsApi = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: ['Ingredients'],
   endpoints: (builder) => ({
-    getIngredients: builder.query<{ data: Ingredient[] }, void>({
+    getIngridiens: builder.query<{ data: Ingredient[] }, void>({
       query: () => ({ url: '/ingredients', method: 'GET' }),
       providesTags: ['Ingredients'],
     }),
   }),
 });
 
-export const { useGetIngredientsQuery } = ingredientsApi;
+export const { useGetIngridiensQuery } = ingredientsApi;

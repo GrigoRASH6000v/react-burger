@@ -1,16 +1,22 @@
+import { useModal } from '@/hooks/useModal';
 import tabsData from '@/static/data/tabs.json';
 import {
   getCountIngredientsByTypeAndId,
   selectIngredients as selectConstructorIngredients,
   selectBun,
-} from '@/store/modules/burger-constructor/burger-constructor-slice';
+} from '@/store/modules/burger-constructor/burger-constructor-slice.ts';
 import { selectIngredients } from '@/store/modules/ingredients/ingredient-slice';
+import {
+  setSelectedIngredient,
+  selectSelectedIngredient,
+} from '@/store/modules/selected-ingredient/selected-ingredient-slice';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { BurgerIngredient } from '@components/burger-ingredient/burger-ingredient';
+import { Modal } from '@components/modal/modal';
+import { IngredientDetails } from '@components/modals/ingredient-details/ingredient-details';
 
 import type { Ingredient } from '@/types/Ingredient';
 import type { Tab as TabType } from '@/types/tab';
@@ -23,7 +29,9 @@ type BreakPoint = {
 };
 
 export const BurgerIngredients = (): React.JSX.Element => {
-  const navigate = useNavigate();
+  const { modalIsOpen, closeModal, openModal } = useModal();
+  const dispatch = useDispatch();
+  const selectedIngredient = useSelector(selectSelectedIngredient);
   const ingredients = useSelector(selectIngredients);
   const constructorIngredients = useSelector(selectConstructorIngredients);
   const constructorBuns = useSelector(selectBun);
@@ -72,7 +80,19 @@ export const BurgerIngredients = (): React.JSX.Element => {
   }, [ingredientsWithCount]);
 
   const handleSelectIngredient = (ingredient: Ingredient): void => {
-    void navigate(`/ingredient/${ingredient._id}`);
+    dispatch(
+      setSelectedIngredient({
+        img: ingredient.image,
+        name: ingredient.name,
+        params: {
+          calories: ingredient.calories,
+          fat: ingredient.fat,
+          proteins: ingredient.proteins,
+          carbohydrates: ingredient.carbohydrates,
+        },
+      })
+    );
+    openModal();
   };
 
   const getGroupTitle = (value: string): string =>
@@ -82,6 +102,11 @@ export const BurgerIngredients = (): React.JSX.Element => {
     if (bodyRef.current) {
       setBodyScrollTop(bodyRef.current.scrollTop);
     }
+  };
+
+  const handleClose = (): void => {
+    closeModal();
+    dispatch(setSelectedIngredient(null));
   };
 
   useEffect(() => {
@@ -141,6 +166,11 @@ export const BurgerIngredients = (): React.JSX.Element => {
           </div>
         ))}
       </div>
+      {modalIsOpen && selectedIngredient && (
+        <Modal title="Детали ингредиента" onClose={handleClose}>
+          <IngredientDetails {...selectedIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };

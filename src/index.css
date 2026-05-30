@@ -10,15 +10,6 @@ li {
   list-style-type: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.text_color_link {
-  color: #4c4cff;
-}
-
 /* Fix for scrollbar */
 
 @supports (scrollbar-color: auto) {

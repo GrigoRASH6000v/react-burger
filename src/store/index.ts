@@ -1,16 +1,15 @@
-import { authApi } from '@/store/api/authApi/authApi.ts';
 import { ordersApi } from '@/store/api/ordersApi';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
 import { ingredientsApi } from './api/ingredientsApi';
 import burgerConstructorReducer from './modules/burger-constructor/burger-constructor-slice';
 import ingredientsReducer from './modules/ingredients/ingredient-slice';
-import userReducer from './modules/user/user-slice';
+import selectedIngredientReducer from './modules/selected-ingredient/selected-ingredient-slice';
 
-const rootReducer = combineSlices(ingredientsApi, ordersApi, authApi, {
+const rootReducer = combineSlices(ingredientsApi, ordersApi, {
+  selectedIngredient: selectedIngredientReducer,
   burgerConstructor: burgerConstructorReducer,
   ingredients: ingredientsReducer,
-  user: userReducer,
 });
 
 export const setupStore = (preloadedState?: RootState): AppStore => {
@@ -20,8 +19,7 @@ export const setupStore = (preloadedState?: RootState): AppStore => {
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware().concat(
         ingredientsApi.middleware,
-        ordersApi.middleware,
-        authApi.middleware
+        ordersApi.middleware
       );
     },
   });

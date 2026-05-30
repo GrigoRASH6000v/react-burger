@@ -1,22 +1,15 @@
-import type { Ingredient } from '@/types/Ingredient';
+import type { IngredientForModal } from '@/types/Ingredient';
 
 import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = ({
-  image,
-  calories,
+  img,
   name,
-  proteins,
-  fat,
-  carbohydrates,
-}: Ingredient): React.JSX.Element => {
+  params,
+}: IngredientForModal): React.JSX.Element => {
   return (
     <div className={styles.container}>
-      <img
-        src={image}
-        className={styles.image}
-        alt={`Изображение ингридиента: ${name}`}
-      />
+      <img src={img} className={styles.image} alt={`Изображение ингридиента: ${name}`} />
       <span className="mb-8 text text_type_main-medium">{name}</span>
       <div className={styles.table}>
         <div className={styles.col}>
@@ -24,7 +17,7 @@ export const IngredientDetails = ({
             Калории,ккал
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {calories}
+            {params.calories}
           </span>
         </div>
         <div className={styles.col}>
@@ -32,7 +25,7 @@ export const IngredientDetails = ({
             Белки, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {proteins}
+            {params.proteins}
           </span>
         </div>
         <div className={styles.col}>
@@ -40,7 +33,7 @@ export const IngredientDetails = ({
             Жиры, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {fat}
+            {params.fat}
           </span>
         </div>
         <div className={styles.col}>
@@ -48,7 +41,7 @@ export const IngredientDetails = ({
             Углеводы, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {carbohydrates}
+            {params.carbohydrates}
           </span>
         </div>
       </div>

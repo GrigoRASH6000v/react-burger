@@ -22,12 +22,8 @@ export const ingredientSlice = createSlice({
     selectIngredients: (state: IngredientState) => state.list,
     selectIngredientsById:
       (state: IngredientState) =>
-      (id: string): Ingredient | null => {
-        if (!id) return null;
-        return (
-          state.list.find((ingredient: Ingredient) => ingredient._id === id) ?? null
-        );
-      },
+      (id: string): Ingredient | null =>
+        state.list.find((ingredient: Ingredient) => ingredient._id === id) ?? null,
   },
 });
 
