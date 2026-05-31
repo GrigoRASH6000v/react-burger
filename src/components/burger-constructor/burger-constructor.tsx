@@ -20,7 +20,7 @@ import {
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -42,13 +42,9 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const user = useSelector(selectUser);
   const bun: IngredientForConstructor | null = useSelector(selectBun);
   const [dragItemType, setDragItemType] = useState<string | null>(null);
-  const [addOrder, { isLoading, data, isError, isSuccess }] = useCreateOrderMutation();
+  const [addOrder, { isLoading, data }] = useCreateOrderMutation();
+  const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    isSuccess && openModal();
-    dispatch(clearConstructor());
-  }, [isSuccess]);
 
   const orderButtonIsDisabled: boolean = useMemo(() => {
     return !(bun && ingredients.length);
@@ -67,7 +63,15 @@ export const BurgerConstructor = (): React.JSX.Element => {
       payload.push(bun.id);
     }
 
-    void addOrder({ ingredients: payload });
+    addOrder({ ingredients: payload })
+      .unwrap()
+      .then(({ success }): void => {
+        if (success) {
+          openModal();
+          dispatch(clearConstructor());
+        }
+      })
+      .catch(() => setIsError(true));
   };
 
   const canDrop = (payload: { zoneType: string; item: ShortIngredient }): boolean => {
