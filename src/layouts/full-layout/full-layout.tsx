@@ -13,7 +13,7 @@ import type { Ingredient } from '@/types/Ingredient.ts';
 import styles from './full-layout.module.css';
 
 export const FullLayout = (): React.JSX.Element => {
-  const { isLoading, data, isError } = useGetIngredientsQuery();
+  const { data, isLoading, isError } = useGetIngredientsQuery();
 
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export const FullLayout = (): React.JSX.Element => {
     if (ingredients.length > 0) {
       dispatch(setIngredients(ingredients));
     }
-  }, [dispatch, ingredients]);
+  }, [ingredients, dispatch]);
 
   return (
     <div className={styles.app}>

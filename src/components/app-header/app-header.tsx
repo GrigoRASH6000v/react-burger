@@ -29,9 +29,9 @@ export const AppHeader = (): React.JSX.Element => {
             </Link>
           ))}
         </div>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <Logo />
-        </div>
+        </Link>
         <Link
           to="/profile"
           className={`${styles.link} ${styles.link_position_last} ${ActivePath === '/profile' && styles.link_active}`}

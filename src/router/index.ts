@@ -16,29 +16,29 @@ import { ResetPasswordPage } from '@pages/reset-password/reset-password';
 
 export const router = createBrowserRouter([
   {
-    Component: AuthRoutes,
-    children: [
-      {
-        path: '/register',
-        Component: RegisterPage,
-      },
-      {
-        path: '/login',
-        Component: LoginPage,
-      },
-      {
-        path: '/reset-password',
-        Component: ResetPasswordPage,
-      },
-      {
-        path: '/forgot-password',
-        Component: ForgotPasswordPage,
-      },
-    ],
-  },
-  {
     Component: FullLayout,
     children: [
+      {
+        Component: AuthRoutes,
+        children: [
+          {
+            path: '/register',
+            Component: RegisterPage,
+          },
+          {
+            path: '/login',
+            Component: LoginPage,
+          },
+          {
+            path: '/reset-password',
+            Component: ResetPasswordPage,
+          },
+          {
+            path: '/forgot-password',
+            Component: ForgotPasswordPage,
+          },
+        ],
+      },
       {
         path: '/',
         Component: Home,
@@ -49,13 +49,8 @@ export const router = createBrowserRouter([
           },
         ],
       },
-    ],
-  },
-  {
-    Component: ProtectedRoutes,
-    children: [
       {
-        Component: FullLayout,
+        Component: ProtectedRoutes,
         children: [
           {
             path: '/',
