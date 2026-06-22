@@ -29,3 +29,4 @@ export const setupStore = (preloadedState?: RootState): AppStore => {
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof configureStore>;
+export type AppDispatch = AppStore['dispatch'];

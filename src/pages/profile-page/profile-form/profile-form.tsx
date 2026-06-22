@@ -1,9 +1,9 @@
+import { useAppSelector, useAppDispatch } from '@/hooks/redux';
 import { useUpdateUserMutation } from '@/store/api/authApi/authApi';
 import { selectUser, setUser } from '@/store/modules/user/user-slice';
 import { Button, Input, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { ErrorMessage } from '@components/error-message/error-message.tsx';
 import { SuccessMessage } from '@components/success-message/success-message.tsx';
@@ -13,11 +13,11 @@ import type { Form } from './types';
 import styles from './profile-form.module.css';
 
 export const ProfileForm = (): React.JSX.Element => {
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [updateUser, { isLoading, isError }] = useUpdateUserMutation();
   const [successMessageIsShow, setSuccessMessageIsShow] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const defaultForm = (): Form => ({
     name: user?.name ?? '',

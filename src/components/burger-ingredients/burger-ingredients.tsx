@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/hooks/redux';
 import tabsData from '@/static/data/tabs.json';
 import {
   getCountIngredientsByTypeAndId,
@@ -7,7 +8,6 @@ import {
 import { selectIngredients } from '@/store/modules/ingredients/ingredient-slice';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { BurgerIngredient } from '@components/burger-ingredient/burger-ingredient';
@@ -24,10 +24,10 @@ type BreakPoint = {
 
 export const BurgerIngredients = (): React.JSX.Element => {
   const navigate = useNavigate();
-  const ingredients = useSelector(selectIngredients);
-  const constructorIngredients = useSelector(selectConstructorIngredients);
-  const constructorBuns = useSelector(selectBun);
-  const getCount = useSelector(getCountIngredientsByTypeAndId);
+  const ingredients = useAppSelector(selectIngredients);
+  const constructorIngredients = useAppSelector(selectConstructorIngredients);
+  const constructorBuns = useAppSelector(selectBun);
+  const getCount = useAppSelector(getCountIngredientsByTypeAndId);
   const ingredientsWithCount = useMemo(() => {
     return ingredients.map((ingredient: Ingredient) => ({
       ...ingredient,

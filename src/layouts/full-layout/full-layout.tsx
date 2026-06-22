@@ -1,8 +1,8 @@
+import { useAppDispatch } from '@/hooks/redux';
 import { useGetIngredientsQuery } from '@/store/api/ingredientsApi.ts';
 import { setIngredients } from '@/store/modules/ingredients/ingredient-slice.ts';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header.tsx';
@@ -15,7 +15,7 @@ import styles from './full-layout.module.css';
 export const FullLayout = (): React.JSX.Element => {
   const { data, isLoading, isError } = useGetIngredientsQuery();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ingredients: Ingredient[] = data?.data ?? [];
 

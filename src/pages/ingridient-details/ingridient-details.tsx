@@ -1,5 +1,5 @@
+import { useAppSelector } from '@/hooks/redux';
 import { selectIngredientsById } from '@/store/modules/ingredients/ingredient-slice';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { Modal } from '@components/modal/modal.tsx';
@@ -12,7 +12,7 @@ export const IngredientDetails = (): React.JSX.Element | null => {
   const from = (location.state as { from?: string })?.from ?? '/';
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const ingredientDetails = useSelector((state: RootState) => {
+  const ingredientDetails = useAppSelector((state: RootState) => {
     if (!id) return null;
     return selectIngredientsById(state)(id);
   });

@@ -1,14 +1,14 @@
+import { useAppDispatch } from '@/hooks/redux';
 import { router } from '@/router';
 import { useGetUserQuery } from '@/store/api/authApi/authApi.ts';
 import { setUser } from '@/store/modules/user/user-slice.ts';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
 export const App = (): React.JSX.Element => {
   const { isLoading, data } = useGetUserQuery();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (data?.success && data.user) {
