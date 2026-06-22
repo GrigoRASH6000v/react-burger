@@ -1,4 +1,5 @@
 import { DragItem } from '@/components/drag-item/drag-item';
+import { useAppSelector, useAppDispatch } from '@/hooks/redux';
 import { useModal } from '@/hooks/useModal';
 import { useCreateOrderMutation } from '@/store/api/ordersApi';
 import {
@@ -21,7 +22,6 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
 import { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { ConstructorElementPlaceholder } from '@components/constructor-element-placeholder/constructor-element-placeholder';
@@ -38,19 +38,19 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
   const { modalIsOpen, closeModal, openModal } = useModal();
-  const ingredients: IngredientForConstructor[] = useSelector(selectIngredients);
-  const user = useSelector(selectUser);
-  const bun: IngredientForConstructor | null = useSelector(selectBun);
+  const ingredients: IngredientForConstructor[] = useAppSelector(selectIngredients);
+  const user = useAppSelector(selectUser);
+  const bun: IngredientForConstructor | null = useAppSelector(selectBun);
   const [dragItemType, setDragItemType] = useState<string | null>(null);
   const [addOrder, { isLoading, data }] = useCreateOrderMutation();
   const [isError, setIsError] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const orderButtonIsDisabled: boolean = useMemo(() => {
     return !(bun && ingredients.length);
   }, [bun, ingredients.length]);
 
-  const price = useSelector(getPrice);
+  const price = useAppSelector(getPrice);
 
   const handleCreateOrder = (): void => {
     if (!user) {

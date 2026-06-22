@@ -1,7 +1,7 @@
+import { useAppDispatch } from '@/hooks/redux';
 import { useLogoutMutation } from '@/store/api/authApi/authApi';
 import { setUser } from '@/store/modules/user/user-slice';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import type { NavItem } from './types';
@@ -11,7 +11,7 @@ import styles from './profile-page.module.css';
 export const ProfilePage = (): React.JSX.Element => {
   const [logout, { isLoading }] = useLogoutMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navItems: NavItem[] = [
     {
       id: 1,

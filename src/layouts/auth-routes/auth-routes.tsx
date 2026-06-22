@@ -1,11 +1,11 @@
+import { useAppSelector } from '@/hooks/redux';
 import { selectUser } from '@/store/modules/user/user-slice';
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import styles from './auth-routes.module.css';
 
 export const AuthRoutes = (): React.JSX.Element => {
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   const location = useLocation();
 
   if (user) {

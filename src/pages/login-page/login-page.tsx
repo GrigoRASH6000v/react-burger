@@ -1,9 +1,9 @@
+import { useAppDispatch } from '@/hooks/redux';
 import { useLoginMutation } from '@/store/api/authApi/authApi.ts';
 import { setUser } from '@/store/modules/user/user-slice';
 import { Input, Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { ErrorMessage } from '@components/error-message/error-message.tsx';
@@ -18,7 +18,7 @@ export const LoginPage = (): React.JSX.Element => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = (location.state as { from?: string })?.from ?? '/';
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [loginUser, { isLoading, isError, isSuccess }] = useLoginMutation();
   const [successMessageIsShow, setSuccessMessageIsShow] = useState(false);
   useEffect(() => {
